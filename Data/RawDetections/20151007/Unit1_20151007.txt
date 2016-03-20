@@ -1,0 +1,51 @@
+
+!! FLASH media not present !!
+
+==== Playback Options ====
+
+- Data transfer and 'On' button aware
+*[1] Playback data recorded on Channel 1
+ [2] Playback data recorded on Channel 2
+ [D] Dual channel playback
+ : :
+ <P> Configure serial port {M:115200,8,N,1,-}
+ : :
+*[R] RAW playback
+ [N] Real time playback: NMEA and time stamped data
+ [X] Hex dump playback
+ : :
+ --- Real time playback options
+*<T> Time stamp and channel number playback options
+*[H] Embed session header in playback data
+ : :
+*[L] Panel LEDs enabled
+ : :
+ [A] Allow Escape key input to abort playback
+ <S> Start playback now (or use 'On' button)
+ <Esc>
+? 
+!! FLASH media not present !!
+
+==== Playback Options ====
+
+- Data transfer and 'On' button aware
+*[1] Playback data recorded on Channel 1
+ [2] Playback data recorded on Channel 2
+ [D] Dual channel playback
+ : :
+ <P> Configure serial port {M:115200,8,N,1,-}
+ : :
+*[R] RAW playback
+ [N] Real time playback: NMEA and time stamped data
+ [X] Hex dump playback
+ : :
+ --- Real time playback options
+*<T> Time stamp and channel number playback options
+*[H] Embed session header in playback data
+ : :
+*[L] Panel LEDs enabled
+ : :
+ [A] Allow Escape key input to abort playback
+ <S> Start playback now (or use 'On' button)
+ <Esc>
+? 

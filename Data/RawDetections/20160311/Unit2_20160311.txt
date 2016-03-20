@@ -1,0 +1,24 @@
+P
+
+==== Playback Serial Port Settings {M:115200,8,N,1,-} ====
+
+- Data transfer and 'On' button aware
+
+*[1] Playback data to main serial port
+ [2] Playback data to secondary serial port
+ : :
+ <B> Set serial port baud rate
+ [5] 5 data bits
+ [6] 6 data bits
+ [7] 7 data bits
+*[8] 8 data bits
+ : :
+*[N] No parity
+ [E] Even parity
+ [O] Odd parity
+ [T] Two stop bits
+ : :
+ --- RS232 Request To Send (RTS) enabled
+ <S> Start playback now (or use 'On' button)
+ <Esc>
+? 
