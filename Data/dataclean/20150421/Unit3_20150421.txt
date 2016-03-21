@@ -1,0 +1,4 @@
+Detection_date,Detection_time,Tag_ID,Signal_strength,Connection,Session_date,Session_time20-Apr-2015,07:13:04.289,5566 4B52, D,99,19-Apr-2015,14:18:25.015
+20-Apr-2015,07:13:06.237,66AA 99B4, C,E9,19-Apr-2015,14:18:25.015
+20-Apr-2015,07:13:10.127,66AA 99B4, C,8C,19-Apr-2015,14:18:25.015
+20-Apr-2015,07:13:14.018,66AA 99B4, C,E9,19-Apr-2015,14:18:25.015

@@ -1,0 +1,2 @@
+Detection_date,Detection_time,Tag_ID,Signal_strength,Connection,Session_date,Session_time20-Nov-2015,08:08:32.157,339F FF00, D,B9,19-Nov-2015,09:48:39.605
+20-Nov-2015,08:08:33.158,334B 2A15, E,5B,19-Nov-2015,09:48:39.605
