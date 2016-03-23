@@ -8,6 +8,7 @@ def scan(data_dir):
         for file in files:
             check_file(data_dir + "/" + directory + "/" + file)
 
+#Making a file of sessions with >=90% "FF" connections (loose wire)
 def check_file(filename):
     if("filename" not in filename and ".txt" in filename):
         with open(filename, "r") as read:
@@ -22,6 +23,8 @@ def check_file(filename):
                 if pieces[4] == "FF":
                     info[key][1] = info[key][1] + 1
         with open("../Data/BadFiles.txt", "a") as write:
+        #Writes out all unit-sessiondate-sessiontime sets that fulfill the criteria
+        #Doesn't open a new file - so make sure there is no file of this name when you run the script
             for key in info.keys():
                 if(info[key][1] / info[key][0] >= .9):
                     write.write(key)
