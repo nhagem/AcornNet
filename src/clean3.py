@@ -9,9 +9,9 @@ def scan(clean_data_dir, clean2_data_dir):
     directories = os.listdir(clean_data_dir)
     for directory in directories:
         files = os.listdir(clean_data_dir + "/" + directory)
-        for file in files:
-            print(clean2_data_dir + "/" + directory)
-            parses(clean_data_dir + "/" + directory + "/" + file, clean2_data_dir + "/" + directory, file)
+        for f in files:
+            print(clean2_data_dir + "/" + directory + "/" + f)
+            parses(clean_data_dir + "/" + directory + "/" + f, clean2_data_dir + "/" + directory, f)
 
 # Make a dictionary of information associated with the tag ID
 with open("../Data/Tag_IDs.txt", "r") as tags:
@@ -42,6 +42,17 @@ with open("../Data/BS_locations_edit.csv", "r") as locations:
 # Create a dictionary of session errors (sessions that do not exist in unitloc
 session_error = {}
 
+# Regexes for two different date formats
+old_date = re.compile('^(\d\d)-(\w{3})-(\d{4})')
+new_date = re.compile('^(\d{4})-(\d\d)-(\d\d)')
+
+# Conversion from month codes to month numbers
+month2num = dict(
+    Jan = '01', Feb = '02', Mar = '03',
+    Apr = '04', May = '05', Jun = '06',
+    Jul = '07', Aug = '08', Sep = '09',
+    Oct = '10', Nov = '11', Dec = '12' )
+
 def parses(filename, dest, file_suffix):
     if not os.path.exists(dest):
         os.makedirs(dest)
@@ -61,17 +72,30 @@ def parses(filename, dest, file_suffix):
                 else:
                     # Change the date format to YYYYMMDD
                     # Units 1-3, accounting for janky dates [fixed by hand, need the commit]
-                    if re.match('201[0-9]', cell[0][-4:]):
-                        cell[0] = parser.parse(cell[0]).strftime('%Y%m%d')
-                        cell[6] = parser.parse(cell[6]).strftime('%Y%m%d')
-                        #print(cell[0])
-                    # Unit 6
-                    elif re.match('201.*', cell[0]):
-                        cell[0] = cell[0].replace('-','')
-                        cell[6] = cell[6].replace('-','')
-                        #print(cell[0])
-                    else:
-                        pass
+                    old_res_1 = old_date.search(cell[0])
+                    if not old_res_1 is None:
+                        (day, monthcode, year) = old_res_1.groups()
+                        cell[0] = year + month2num[monthcode] + day
+                        old_res_2 = old_date.search(cell[6])
+                        if old_res_2 is None:
+                            print('Different date formats in same row')
+                            continue
+                        (day, monthcode, year) = old_res_2.groups()
+                        cell[6] = year + month2num[monthcode] + day
+                    else: # Unit 6
+                        new_res_1 = new_date.search(cell[0])
+                        if new_res_1 is None:
+                            print('Failed to parse date: ' + cell[0])
+                            continue
+                        (year, month, day) = new_res_1.groups()
+                        cell[0] = year + month + day
+                        new_res_2 = new_date.search(cell[6])
+                        if new_res_2 is None:
+                            print('Different date formats in same row')
+                            continue
+                        (year, month, day) = new_res_2.groups()
+                        cell[6] = year + month + day
+
                     # Mark down any session dates that are not on the BS locations datasheet
                     if not cell[6] in unitloc[cell[5].lower()]:
                         if not cell[5].lower() in session_error:
@@ -88,4 +112,5 @@ with open("../Data/BadSessions.txt", "w") as write:
     for unit, date in session_error.items():
         write.write(unit + "," + date + "\n")
 
-scan("../Data/dataclean", "../Data/dataclean2")
+if __name__ == '__main__':
+    scan("../Data/dataclean", "../Data/dataclean2")
