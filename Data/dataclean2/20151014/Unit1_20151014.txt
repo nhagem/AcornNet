@@ -1,0 +1,1 @@
+Detection_date,Detection_time,Tag_ID,Signal_strength,Connection,Unit,Session_date,Session_time,Session_loc,Bird_ID,Home_Location,Sex,Status

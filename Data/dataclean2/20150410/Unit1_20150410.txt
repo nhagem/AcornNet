@@ -1,0 +1,2 @@
+Detection_date,Detection_time,Tag_ID,Signal_strength,Connection,Unit,Session_date,Session_time,Session_loc,Bird_ID,Home_Location,Sex,Status
+20150406,12:30:29.114,5555 2A55,D8,BF,Unit1,20150404,11:10:30.515,bad,5719,HORS,M,B
