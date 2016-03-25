@@ -40,6 +40,9 @@ with open("../Data/BS_locations_edit.csv", "r") as locations:
         unitloc["unit6"][pieces[0]] = pieces[4]
 
 # Create a dictionary of session errors (sessions that do not exist in unitloc
+# Create the Bad Sessions file
+with open("../Data/BadSessions.txt", "w") as BSerror:
+    BSerror.write("Unit,Date\n")
 session_error = {}
 
 # Regexes for two different date formats
@@ -98,10 +101,13 @@ def parses(filename, dest, file_suffix):
 
                     # Mark down any session dates that are not on the BS locations datasheet
                     if not cell[6] in unitloc[cell[5].lower()]:
-                        if not cell[5].lower() in session_error:
-                            session_error[cell[5].lower()] = []
-                        elif not cell[6] in session_error[cell[5].lower()]:
-                            session_error[cell[5].lower()].append(cell[6])
+                        with open("../Data/BadSessions.txt", "a") as BSerror:
+                            if not cell[5].lower() in session_error:
+                                session_error[cell[5].lower()] = [cell[6]]
+                                BSerror.write(cell[5].lower() + "," + cell[6] + "\n")
+                            elif not cell[6] in session_error[cell[5].lower()]:
+                                session_error[cell[5].lower()].append(cell[6])
+                                BSerror.write(cell[5].lower() + "," + cell[6] + "\n")
                     # Write datalines to a new file
                     else:
                         line = ",".join(cell)
