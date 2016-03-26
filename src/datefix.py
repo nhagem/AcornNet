@@ -1,4 +1,5 @@
 import os
+import datetime
 
 # This script is used to fix datafiles in which the battery for the clock died
 
@@ -18,24 +19,32 @@ def parses(filename, dest, file_suffix):
         return
     with open(filename, "r") as read:
         with open(dest + "/" + file_suffix, "w") as write:
-            for
-
-            if(len(i) >= 40): #If it's not empty
-                try: #Sometimes this breaks cause things are stupid
-                    my_date = datetime.datetime.strptime(i.split(",")[0] + "," + i.split(",")[1], "%d-%b-%Y,%H:%M:%S.%f")
-                except IndexError, ValueError:
-                    print currentFile
-                    continue
-
-            newDate = my_date
-            if(my_date.year == 2000): #Adjusting for the wrong dates
-                firstOfYear = datetime.datetime.strptime("01-Jan-2000,00:00", "%d-%b-%Y,%H:%M")
-                delta = my_date - firstOfYear
-                newDate = session_date + delta
-            if(my_date.year == 2089): #Adjusting for the wrong dates
-                firstOfYear = datetime.datetime.strptime("15-Sep-2089,00:00", "%d-%b-%Y,%H:%M")
-                delta = my_date - firstOfYear
-                newDate = session_date + delta
+            for i in read:
+                session_date=""
+                if i[0] == "$": #If its a session line
+                    session_date = datetime.datetime.strptime(i.split(',')[3] + "," + i.split(',')[4], "%d-%b-%Y,%H:%M:%S.%f")
+                    write.write(i)
+                if len(i) >= 40 and len(i) <= 45: #If it's a data line
+                    try: #Sometimes this breaks cause things are stupid
+                        my_date = datetime.datetime.strptime(i.split(",")[0] + "," + i.split(",")[1], "%d-%b-%Y,%H:%M:%S.%f")
+                    except IndexError or ValueError:
+                        print(filename)
+                        continue
+                    splitline = i.split(",")
+                    if(my_date.year == 2000): #Adjusting for the wrong dates
+                        firstOfYear = datetime.datetime.strptime("01-Jan-2000,00:00", "%d-%b-%Y,%H:%M")
+                        delta = my_date - firstOfYear
+                        newDate = session_date + datetime.timedelta(seconds=delta)
+                        newDate = newDate.strftime("%d-%b-%Y,%H:%M")
+                        print(newDate)
+                        write.write(newDate + "," + splitline[2] + "\n")
+                    elif(my_date.year == 2089): #Adjusting for the wrong dates
+                        firstOfYear = datetime.datetime.strptime("15-Sep-2089,00:00", "%d-%b-%Y,%H:%M")
+                        delta = my_date - firstOfYear
+                        newDate = session_date + datetime.timdelta(delta)
+                        write.write(newDate + "," + splitline[2] + "\n")
+                    else:
+                        write.write(i)
 
 if __name__ == '__main__':
     scan("../Data/clock_error", "../Data/clock_fix")
