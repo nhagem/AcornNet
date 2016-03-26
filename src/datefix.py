@@ -19,8 +19,8 @@ def parses(filename, dest, file_suffix):
         return
     with open(filename, "r") as read:
         with open(dest + "/" + file_suffix, "w") as write:
+            session_date=""
             for i in read:
-                session_date=""
                 if i[0] == "$": #If its a session line
                     session_date = datetime.datetime.strptime(i.split(',')[3] + "," + i.split(',')[4], "%d-%b-%Y,%H:%M:%S.%f")
                     write.write(i)
@@ -34,14 +34,14 @@ def parses(filename, dest, file_suffix):
                     if(my_date.year == 2000): #Adjusting for the wrong dates
                         firstOfYear = datetime.datetime.strptime("01-Jan-2000,00:00", "%d-%b-%Y,%H:%M")
                         delta = my_date - firstOfYear
-                        newDate = session_date + datetime.timedelta(seconds=delta)
+                        newDate = session_date + delta
                         newDate = newDate.strftime("%d-%b-%Y,%H:%M")
-                        print(newDate)
                         write.write(newDate + "," + splitline[2] + "\n")
                     elif(my_date.year == 2089): #Adjusting for the wrong dates
                         firstOfYear = datetime.datetime.strptime("15-Sep-2089,00:00", "%d-%b-%Y,%H:%M")
                         delta = my_date - firstOfYear
-                        newDate = session_date + datetime.timdelta(delta)
+                        newDate = session_date + delta
+                        newDate = newDate.strftime("%d-%b-%Y,%H:%M")
                         write.write(newDate + "," + splitline[2] + "\n")
                     else:
                         write.write(i)
